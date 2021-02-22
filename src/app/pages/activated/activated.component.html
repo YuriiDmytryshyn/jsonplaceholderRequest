@@ -1,0 +1,48 @@
+<section *ngIf="!activeCard.length" class="container">
+    <h1>No active items</h1>
+</section>
+<section *ngIf="activeCard.length" class="container">
+    <mat-card class="card" *ngFor="let active of activeCard">
+        <div *ngIf="isPost(active)">
+            <div class="mat-title">{{ active?.title | uppercase }}</div>
+            <div class="mat-headline">{{ active?.body }}</div>
+        </div>
+        <div *ngIf="isPhoto(active)">
+            <mat-card-header class="card__header">
+                <div mat-card-avatar class="card__header--image"
+                    [ngStyle]="{'background-image': 'url(' + active?.thumbnailUrl + ')'}"></div>
+                <mat-card-title>{{ active?.id }}</mat-card-title>
+                <mat-card-subtitle>{{ active?.title | uppercase }}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image [attr.src]="active?.url" [alt]="active?.title">
+        </div>
+        <div *ngIf="isUser(active)">
+            <mat-card-header class="card__user">
+                <div class="mat-title">Name: {{ active?.name | uppercase }}</div>
+                <div class="mat-headline">{{ active?.email }}</div>
+                <span>Phone: {{ active?.phone }}</span>
+            </mat-card-header>
+            <mat-card-content class="card__content">
+                <div class="card__content--address">
+                    <span>Address:</span><br>
+                    <span>Ciry: {{ active?.address?.city }}</span><br>
+                    <span>Street: {{ active?.address?.street }}</span>
+                </div>
+                <div class="card__content--geo">
+                    <span>Geo : lat: {{ active?.address?.geo?.lat }} and lng: {{ active?.address?.geo?.lng }}</span>
+                </div>
+                <div class="card__content--company">
+                    <span>Company:</span><br>
+                    <span>Company name: {{ active?.company?.name }}</span><br>
+                    <span>Сompany information:</span><br>
+                    <span>{{ active?.company?.catchPhrase }}</span><br>
+                    <span>{{ active?.company?.bs }}</span>
+                </div>
+            </mat-card-content>
+        </div>
+    </mat-card>
+    <div class="paginator">
+        <mat-paginator [length]="activeCard.length" [pageSize]="10" (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</section>

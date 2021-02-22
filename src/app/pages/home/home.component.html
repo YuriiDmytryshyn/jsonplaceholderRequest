@@ -1,0 +1,66 @@
+<section class="container" *ngIf="data$ | async as data">
+    <div class="container__title">
+        <h2>Photos</h2>
+    </div>
+    <mat-card class="card" *ngFor="let photo of data.photos | slice: 0:10">
+        <mat-card-header class="card__header">
+            <div mat-card-avatar class="card__header--image"
+                [ngStyle]="{'background-image': 'url(' + photo?.thumbnailUrl + ')'}"></div>
+            <mat-card-title>{{ photo?.id }}</mat-card-title>
+            <mat-card-subtitle>{{ photo?.title | uppercase }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [attr.src]="photo?.url" [alt]="photo?.title">
+        <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" *ngIf="!isActivated(photo)"
+                (click)="addToActivated(photo)">activate</button>
+            <button mat-stroked-button color="accent" *ngIf="isActivated(photo)"
+                (click)="removeFromActivated(photo)">deactivate</button>
+        </mat-card-actions>
+    </mat-card>
+    <div class="container__title">
+        <h2>Users</h2>
+    </div>
+    <mat-card class="card" *ngFor="let user of data.users | slice: 0:10">
+        <mat-card-header class="card__user">
+            <div class="mat-title">Name: {{ user?.name | uppercase }}</div>
+            <div class="mat-headline">{{ user?.email }}</div>
+            <span>Phone: {{ user?.phone }}</span>
+        </mat-card-header>
+        <mat-card-content class="card__content">
+            <div class="card__content--address">
+                <span>Address:</span><br>
+                <span>Ciry: {{ user?.address?.city }}</span><br>
+                <span>Street: {{ user?.address?.street }}</span>
+            </div>
+            <div class="card__content--geo">
+                <span>Geo : lat: {{ user?.address?.geo?.lat }} and lng: {{ user?.address?.geo?.lng }}</span>
+            </div>
+            <div class="card__content--company">
+                <span>Company:</span><br>
+                <span>Company name: {{ user?.company?.name }}</span><br>
+                <span>Сompany information:</span><br>
+                <span>{{ user?.company?.catchPhrase }}</span><br>
+                <span>{{ user?.company?.bs }}</span>
+            </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" *ngIf="!isActivated(user)"
+                (click)="addToActivated(user)">activate</button>
+            <button mat-stroked-button color="accent" *ngIf="isActivated(user)"
+                (click)="removeFromActivated(user)">deactivate</button>
+        </mat-card-actions>
+    </mat-card>
+    <div class="container__title">
+        <h2>Posts</h2>
+    </div>
+    <mat-card class="card" *ngFor="let post of data.posts | slice: 0:10">
+        <div class="mat-title">{{ post?.title | uppercase }}</div>
+        <div class="mat-headline">{{ post?.body }}</div>
+        <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" *ngIf="!isActivated(post)"
+                (click)="addToActivated(post)">activate</button>
+            <button mat-stroked-button color="accent" *ngIf="isActivated(post)"
+                (click)="removeFromActivated(post)">deactivate</button>
+        </mat-card-actions>
+    </mat-card>
+</section>
